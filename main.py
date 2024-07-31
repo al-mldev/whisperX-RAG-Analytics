@@ -1,10 +1,13 @@
-from db_utils.instance_transcription import create_transcription_object
+from db_utils.instance_transcription import create_transcription_output
 from huggingface_hub import login
-from metrics.metrics_calc import whisperx_metrics_wer, whisperx_metrics_cer
+from metrics.metrics_calc import show_error_rates
 from pymongo import MongoClient
 from utils.load_audios import load_mp3_batch
 from utils.load_models import check_ffmpeg, load_whisper_model, load_whisper_faster_model
 from utils.load_references import load_reference_batch
+import gridfs
+import os
+import tempfile
 
 hf_token = "<your_created_huggingface_token>"
 model_name= "openai/whisper-tiny.en" 
@@ -21,20 +24,32 @@ def main():
   db = client['whisperx']
   audio_collection = db['audio_files']
   transcription_collection = db['transcriptions']
+  fs = gridfs.GridFS(db)
+
   audio_cursor = audio_collection.find()  
   if audio_cursor:
     for doc in audio_cursor:
       file_name = doc.get('filename')
       audio_id = doc.get('audio_id')
-      create_transcription_object(file_name, audio_id)
-      transcription_obj = transcription_collection.find_one({'file_name.audio_id': audio_id })
-      document_id = transcription_obj.get('_id')
-      whisperx_metrics_wer((str('R-'+file_name)), document_id)
-      whisperx_metrics_cer((str('R-'+file_name)), document_id) 
+      file_id = doc.get('file_id')
+      mp3_data = fs.get(file_id).read()
+      with tempfile.TemporaryDirectory() as temp_dir:
+        output_path = os.path.join(temp_dir, file_name)
+        output_path = output_path.replace("\\", "/")
+        with open(output_path, 'wb') as f:
+          f.write(mp3_data)
+          create_transcription_output(audio_id,output_path, file_name)
+          transcription_cursor = transcription_collection.find()
+          for transcription in transcription_cursor:
+            if transcription['audio_id'] == audio_id:
+              last_end = transcription['result']['segments'][-1]['end']
+              document_id = transcription['_id']  
+            file_name = str(file_name)
+            show_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
+           
   else: 
      print("Error: no audio files loaded in database")
     
-
 if __name__ == "__main__":
     print("---------------------------------------------------------") 
     print("------------------Whisperx Metrics Menu------------------")
@@ -58,7 +73,7 @@ if __name__ == "__main__":
             load_mp3_batch(audio_dir)
           elif option == 3: 
             print("Loading reference files batch from local directory") 
-            load_reference_batch(reference_dir)            
+            load_reference_batch('9b99edfe-7ce8-4503-abe4-054d84dd7d1f', reference_dir)            
           elif option == 4:
             print("Checking ffmpeg")
             check_ffmpeg()

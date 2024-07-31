@@ -1,1 +1,1 @@
-# Set this directory to download your huggingface models
+# Set this directory to download your huggingface models, set your token and select option 1 in menu

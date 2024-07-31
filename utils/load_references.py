@@ -3,7 +3,8 @@ import re
 from pymongo import MongoClient
 from unidecode import unidecode
 
-def load_reference_batch(reference_dir):
+
+def load_reference_batch(audio_id, reference_dir):
   client = MongoClient('mongodb://localhost:27017/')
   db = client['whisperx']
   collection = db['references']
@@ -17,6 +18,7 @@ def load_reference_batch(reference_dir):
           reference_list = re.findall(r'\b\w+\b', processed_text)            
           reference_document = {
                   'file_name': file_name,
+                  'audio_id': audio_id,
                   'reference_list': reference_list
               }
           collection.insert_one(reference_document)

@@ -1,6 +1,9 @@
+from bson import Binary, UuidRepresentation
+from pymongo import MongoClient
 import gridfs
 import os
-from pymongo import MongoClient
+import uuid
+
 
 def load_mp3_batch(audio_dir):
     client = MongoClient('mongodb://localhost:27017/')  
@@ -16,9 +19,10 @@ def load_mp3_batch(audio_dir):
                 file_data = f.read()
             file_id = fs.put(file_data, filename=file_name)
             collection = db['audio_files']
-            audio_id = f"T-{c}" 
+            audio_id = uuid.uuid4()
+            bson_audio_id = Binary.from_uuid(audio_id, UuidRepresentation.STANDARD) 
             document = {
-                'audio_id': audio_id,
+                'audio_id': bson_audio_id,
                 'filename': file_name, 
                 'file_id': file_id 
             }
