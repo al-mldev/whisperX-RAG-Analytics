@@ -61,6 +61,7 @@ def show_error_rates(audio_id, file_name, last_end, document_id):
   collection = db['metrics'] 
   document = {
       'file_name': file_name,
+      'audio_id': audio_id,
       'rtf_score': rtf_rate,
       'wer_score': w_rate,
       'cer_score': c_rate
@@ -70,16 +71,16 @@ def show_error_rates(audio_id, file_name, last_end, document_id):
   c_rate = float(c_rate)
   w_rate = float(w_rate)
 
-  print("-----------------------------------------------------------------\n"  
-        "-------Transcription Name : "+str(document['file_name'])+"------------------\n"
+  print("-------------------------------------------------------------------\n"  
+        "-------Transcription Name : "+str(document['file_name'])+"---------------------\n"
         "-------------------------------------------------------------------\n"
         "-------------------Status : Complete ------------------------------\n"
         "-------------------------------------------------------------------\n"
-        "-----Real Time Factor (RTF): "+str(round((rtf_rate*100),2))+"%-----------------------\n"
+        "-----Real Time Factor (RTF): "+str(round((rtf_rate*100),2))+"%--------------------------------\n"
         "-------------------------------------------------------------------\n"
-        "-----Word Error Rate (WER): "+str(round((w_rate*100),2))+"%---------------------------\n"
+        "-----Word Error Rate (WER): "+str(round((w_rate*100),2))+"%----------------------------------\n"
         "-------------------------------------------------------------------\n"
-        "-----Character Error Rate (CER): "+str(round((c_rate*100),2))+"%-----------------------\n"
+        "-----Character Error Rate (CER): "+str(round((c_rate*100),2))+"%-----------------------------\n"
         "-------------------------------------------------------------------")
 
 
