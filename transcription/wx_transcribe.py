@@ -12,9 +12,9 @@ def generate_transcription(output_path, hf_token, device, batch_size, compute_ty
 
 def show_raw_text(result_transcription):
   raw_text = "\n".join([segment['text'] for segment in result_transcription["segments"]])
-  print("------------------------------------------------------------------\n"
+  print("------------------------------------------------------------------\n",
         "------------------------Raw Transcription-------------------------\n",
-        "------------------------------------------------------------------",
+        "------------------------------------------------------------------\n",
         raw_text)
   
 def show_output(result_transcription):
