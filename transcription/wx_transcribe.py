@@ -10,6 +10,13 @@ def generate_transcription(output_path, hf_token, device, batch_size, compute_ty
   generate_diarization(hf_token, device, audio, result)
   return result 
 
+def show_raw_text(result_transcription):
+  raw_text = "\n".join([segment['text'] for segment in result_transcription["segments"]])
+  print("------------------------------------------------------------------\n"
+        "------------------------Raw Transcription-------------------------\n",
+        "------------------------------------------------------------------",
+        raw_text)
+  
 def show_output(result_transcription):
   for seg, segment in enumerate(result_transcription["segments"]):      
     print(f"Segment {seg + 1}:")
@@ -18,9 +25,5 @@ def show_output(result_transcription):
     print(f"{segment['speaker']}")
     print(f"{segment['text']}")
     print("")
-
-
-
-
 
 

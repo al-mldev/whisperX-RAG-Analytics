@@ -2,6 +2,7 @@ from db_utils.create_collections import create_collections
 from db_utils.instance_transcription import create_transcription_output
 from huggingface_hub import login
 from metrics.metrics_calc import show_error_rates
+from transcription.wx_transcribe import show_raw_text
 from pymongo import MongoClient
 from utils.load_audios import load_mp3_batch
 from utils.load_models import check_ffmpeg, load_whisper_model, load_whisper_faster_model
@@ -11,6 +12,7 @@ import os
 import tempfile
 
 hf_token = "<your_created_huggingface_token>"
+hf_token = "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"
 model_name= "openai/whisper-tiny.en" 
 database_name = 'whisperx'
 
@@ -40,7 +42,7 @@ def main(database_name):
         output_path = output_path.replace("\\", "/")
         with open(output_path, 'wb') as f:
           f.write(mp3_data)
-          create_transcription_output(audio_id,output_path, file_name)
+          result_transcription = create_transcription_output(audio_id,output_path, file_name)
           transcription_cursor = transcription_collection.find()
           for transcription in transcription_cursor:
             if transcription['audio_id'] == audio_id:
@@ -48,6 +50,7 @@ def main(database_name):
               document_id = transcription['_id']  
             file_name = str(file_name)
             show_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
+            show_raw_text(result_transcription)
            
   else: 
      print("Error: no audio files loaded in database")

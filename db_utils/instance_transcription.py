@@ -28,4 +28,5 @@ def create_transcription_output(audio_id, output_path, file_name):
   result_transcription = generate_transcription(output_path, hf_token, device, batch_size, compute_type, whisper_faster_model_dir, language)
   insert_transcription(audio_id, file_name, result_transcription)
   show_output(result_transcription)
+  return result_transcription
   
