@@ -12,7 +12,6 @@ import os
 import tempfile
 
 hf_token = "<your_created_huggingface_token>"
-hf_token = "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"
 model_name= "openai/whisper-tiny.en" 
 database_name = 'whisperx'
 
@@ -49,8 +48,8 @@ def main(database_name):
               last_end = transcription['result']['segments'][-1]['end']
               document_id = transcription['_id']  
             file_name = str(file_name)
-            show_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
-            show_raw_text(result_transcription)
+          show_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
+          show_raw_text(result_transcription)
            
   else: 
      print("Error: no audio files loaded in database")
@@ -80,7 +79,7 @@ if __name__ == "__main__":
             print("Loading audio files batch from local directory")
             load_mp3_batch(audio_dir)
           elif option == 4: 
-            audio_id = input("Set the audio_id for the reference file")
+            audio_id = input("Set the audio_id for the reference file: ")
             load_reference_batch(audio_id, reference_dir)           
           elif option == 5:
             print("Checking ffmpeg")
