@@ -51,14 +51,14 @@ def main():
      print("Error: no audio files loaded in database")
     
 if __name__ == "__main__":
-    print("---------------------------------------------------------") 
-    print("------------------Whisperx Metrics Menu------------------")
-    print("---------------------------------------------------------")
-    print("------------------1) Load Models--------------------------\n",
-          "-----------------2) Load Audios--------------------------\n",
-          "-----------------3) Load References----------------------\n",
-          "-----------------4) Run Transcriptions-------------------")
-    print("---------------------------------------------------------")
+    print("---------------------------------------------------------\n"
+          "------------------Whisperx Metrics Menu------------------\n"
+          "---------------------------------------------------------\n"
+          "-----------------1) Load Models--------------------------\n"
+          "-----------------2) Load Audios--------------------------\n"
+          "-----------------3) Load References----------------------\n"
+          "-----------------4) Run Transcriptions-------------------\n"
+          "---------------------------------------------------------")
     option =input("Enter an option: ")
     if option in '1234':
        option=int(option)
@@ -72,8 +72,9 @@ if __name__ == "__main__":
             print("Loading audio files batch from local directory")
             load_mp3_batch(audio_dir)
           elif option == 3: 
-            print("Loading reference files batch from local directory") 
-            load_reference_batch('9b99edfe-7ce8-4503-abe4-054d84dd7d1f', reference_dir)            
+            audio_id = input("Set the audio_id for the reference file")
+            load_reference_batch(audio_id, reference_dir)
+            #print("Loading reference files batch from local directory")            
           elif option == 4:
             print("Checking ffmpeg")
             check_ffmpeg()
