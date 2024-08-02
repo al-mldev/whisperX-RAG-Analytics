@@ -1,7 +1,7 @@
 from db_utils.create_collections import create_collections
 from db_utils.instance_transcription import create_transcription_output
+from db_utils.instance_metrics import calculate_error_rates
 from huggingface_hub import login
-from metrics.metrics_calc import show_error_rates
 from transcription.wx_transcribe import show_raw_text
 from pymongo import MongoClient
 from utils.load_audios import load_mp3_batch
@@ -48,7 +48,7 @@ def main(database_name):
               last_end = transcription['result']['segments'][-1]['end']
               document_id = transcription['_id']  
             file_name = str(file_name)
-          show_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
+          calculate_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
           show_raw_text(result_transcription)
            
   else: 
