@@ -12,9 +12,9 @@ import os
 import tempfile
 
 hf_token = "<your_created_huggingface_token>"
+
 model_name= "openai/whisper-tiny.en" 
 database_name = 'whisperx'
-
 reference_dir = './local_input_batch/reference_batch/'
 audio_dir = './local_input_batch/audio_batch'
 whisper_model_dir = "./models/whisper_model/"
@@ -43,13 +43,14 @@ def main(database_name):
           f.write(mp3_data)
           result_transcription = create_transcription_output(audio_id,output_path, file_name)
           transcription_cursor = transcription_collection.find()
+          transcription_id = result_transcription['transcription_id'] 
           for transcription in transcription_cursor:
-            if transcription['audio_id'] == audio_id:
+            if transcription['transcription_id'] == transcription_id: 
               last_end = transcription['result']['segments'][-1]['end']
               document_id = transcription['_id']  
-            file_name = str(file_name)
-          calculate_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
-          show_raw_text(result_transcription)
+              file_name = str(file_name)
+              calculate_error_rates(audio_id, 'R-'+file_name, last_end, document_id)
+              show_raw_text(result_transcription)
            
   else: 
      print("Error: no audio files loaded in database")

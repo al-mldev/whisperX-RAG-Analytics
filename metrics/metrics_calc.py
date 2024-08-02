@@ -27,6 +27,9 @@ def whisperx_metrics_rtf(audio_id, file_name, last_end):
   
 def whisperx_metrics_wer(file_name, document_id):
   file_name=file_name.replace('.mp3', '.txt')
+  print("-------------------------------------------------------------------\n",
+        "------------------------WER Calculation----------------------------\n",
+        "-------------------------------------------------------------------")
   reference_list = load_reference_text(file_name)
   transcription_list = load_transcription_text(document_id)
   if reference_list==None or transcription_list==None:
@@ -40,6 +43,9 @@ def whisperx_metrics_wer(file_name, document_id):
     return wer_score
 
 def whisperx_metrics_cer(file_name, document_id):
+  print("-------------------------------------------------------------------\n",
+        "------------------------CER Calculation----------------------------\n",
+        "-------------------------------------------------------------------")
   file_name=file_name.replace('.mp3', '.txt')
   reference_list = load_reference_text(file_name)
   transcription_list = load_transcription_text(document_id)
