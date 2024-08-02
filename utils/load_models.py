@@ -18,7 +18,7 @@ def load_whisper_model(hf_token, model_name, whisper_model_dir):
     tokenizer = WhisperTokenizer.from_pretrained(model_name, token=True)
     model.save_pretrained(whisper_model_dir)
     tokenizer.save_pretrained(whisper_model_dir)
-    print(f"Whisper model loaded. Stored at: {whisper_model_dir}")
+    print(f"Whisper model loaded, stored in: {whisper_model_dir}")
 
 def load_whisper_faster_model(whisper_model_dir, whisper_faster_model_dir):
     os.makedirs(whisper_faster_model_dir, exist_ok=True)
@@ -37,4 +37,4 @@ def load_whisper_faster_model(whisper_model_dir, whisper_faster_model_dir):
     ]
     subprocess.run(command, check=True)
     shutil.rmtree(temp_model_dir)
-    print(f"Model transformed to whisper faster format. Stored at: {whisper_faster_model_dir}")
+    print(f"Model transformed to Whisper faster format, stored in: {whisper_faster_model_dir}")
