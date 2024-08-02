@@ -19,9 +19,11 @@ def calculate_error_rates(audio_id, file_name, last_end, document_id):
   rtf_rate = float(rtf_rate)
   c_rate = float(c_rate)
   w_rate = float(w_rate)
+  transcription_name = str(document['file_name'])
+  transcription_name = transcription_name[2:-4]
   
   print("-------------------------------------------------------------------\n"  
-        "-------Transcription Name : "+str(document['file_name'])+"---------------------\n"
+        "-------Transcription Name : "+transcription_name+"---------------------\n"
         "-------------------------------------------------------------------\n"
         "-------------------Status : Complete ------------------------------\n"
         "-------------------------------------------------------------------\n"
