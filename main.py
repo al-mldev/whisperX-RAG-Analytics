@@ -56,37 +56,45 @@ def main(database_name):
      print("Error: no audio files loaded in database")
     
 if __name__ == "__main__":
-    print("---------------------------------------------------------\n"
-          "------------------Whisperx Metrics Menu------------------\n"
-          "---------------------------------------------------------\n"
-          "-----------------1) Create Collections-------------------\n"
-          "-----------------2) Load Models--------------------------\n"
-          "-----------------3) Load Audios--------------------------\n"
-          "-----------------4) Load References----------------------\n"
-          "-----------------5) Run Transcriptions-------------------\n"
-          "---------------------------------------------------------")
-    option =input("Enter an option: ")
-    if option in '12345':
-       option=int(option)
-       if option >=1 and option <=5:
-          if option == 1:
-            create_collections(database_name)
-          elif option == 2:
-            print("Downloading model from huggingface")
-            load_whisper_model(hf_token, model_name, whisper_model_dir)
-            print("Transforming whisper model into whisper faster format")
-            load_whisper_faster_model(whisper_model_dir, whisper_faster_model_dir)
-          elif option == 3:
-            print("Loading audio files batch from local directory")
-            load_mp3_batch(audio_dir)
-          elif option == 4: 
-            audio_id = input("Set the audio_id for the reference file: ")
-            load_reference_batch(audio_id, reference_dir)           
-          elif option == 5:
-            print("Checking ffmpeg")
-            check_ffmpeg()
-            print("Running transcriptions")
-            main(database_name)
-    else:
-      ("Error: insert a value between 1 and 5")
-    
+    while True:
+
+      print("---------------------------------------------------------\n",
+            "------------------Whisperx Metrics Menu------------------\n"
+            "---------------------------------------------------------\n"
+            "-----------------1) Create Collections-------------------\n"
+            "-----------------2) Load Models--------------------------\n"
+            "-----------------3) Load Audios--------------------------\n"
+            "-----------------4) Load References----------------------\n"
+            "-----------------5) Run Transcriptions-------------------\n"
+            "-----------------0) Exit---------------------------------\n"
+            "---------------------------------------------------------")
+      option =input("Enter an option: ")
+      
+      if option == '0':
+        print("Menu Ended")
+        break
+
+      if option in '12345':
+        option=int(option)
+        if option >=1 and option <=5:
+            if option == 1:
+              create_collections(database_name)
+            elif option == 2:
+              print("Downloading model from huggingface")
+              load_whisper_model(hf_token, model_name, whisper_model_dir)
+              print("Transforming whisper model into whisper faster format")
+              load_whisper_faster_model(whisper_model_dir, whisper_faster_model_dir)
+            elif option == 3:
+              print("Loading audio files batch from local directory")
+              load_mp3_batch(audio_dir)
+            elif option == 4: 
+              audio_id = input("Set the audio_id for the reference file: ")
+              load_reference_batch(audio_id, reference_dir)           
+            elif option == 5:
+              print("Checking ffmpeg")
+              check_ffmpeg()
+              print("Running transcriptions")
+              main(database_name)
+      else:
+        ("Error: insert a value between 1 and 5")
+      
