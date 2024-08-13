@@ -13,7 +13,7 @@ language = "en"
 
 reference_dir = './local_input_batch/reference_batch/'
 audio_dir = './local_input_batch/audio_batch'
-whisper_faster_model_dir = "../models/whisper_faster_model/"
+whisper_faster_model_dir = "./models/whisper_faster_model/"
 
 def insert_transcription(audio_id, file_name, result_transcription):
   client = MongoClient('mongodb://localhost:27017/')  
