@@ -1,11 +1,12 @@
 from bson import ObjectId  
+from db_utils.db_settings import CLIENT_URL, DATABASE_NAME
 from pymongo import MongoClient
 from unidecode import unidecode
 import re
 
 def load_reference_text(file_name):
-  client = MongoClient('mongodb://localhost:27017/')
-  db = client['whisperx']
+  client = MongoClient(CLIENT_URL)
+  db = client[DATABASE_NAME]
   collection = db['references']
   reference_document = collection.find_one({'file_name': file_name})
   if reference_document:
@@ -21,8 +22,8 @@ def load_reference_text(file_name):
       return None
 
 def load_transcription_text(document_id):
-  client = MongoClient('mongodb://localhost:27017/')
-  db = client['whisperx']
+  client = MongoClient(CLIENT_URL)
+  db = client[DATABASE_NAME]
   collection = db['transcriptions']
   transcription_document = collection.find_one({'_id': ObjectId(document_id)})
   transcription_list = []

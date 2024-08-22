@@ -1,12 +1,13 @@
 from metrics.metrics_calc import whisperx_metrics_cer, whisperx_metrics_rtf, whisperx_metrics_wer
+from db_utils.db_settings import DATABASE_NAME, CLIENT_URL
 from pymongo import MongoClient
 
 def calculate_error_rates(audio_id, file_name, last_end, document_id):
   w_rate = whisperx_metrics_wer(file_name, document_id)
   c_rate = whisperx_metrics_cer(file_name, document_id)
   rtf_rate = whisperx_metrics_rtf(audio_id, file_name, last_end)
-  client = MongoClient('mongodb://localhost:27017/')  
-  db = client['whisperx']  
+  client = MongoClient(CLIENT_URL)  
+  db = client[DATABASE_NAME]  
   collection = db['metrics'] 
   document = {
       'file_name': file_name,

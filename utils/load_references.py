@@ -1,12 +1,12 @@
 import os
 import re
+from db_utils.db_settings import CLIENT_URL, DATABASE_NAME
 from pymongo import MongoClient
 from unidecode import unidecode
 
-
 def load_reference_batch(audio_id, reference_dir):
-  client = MongoClient('mongodb://localhost:27017/')
-  db = client['whisperx']
+  client = MongoClient(CLIENT_URL)
+  db = client[DATABASE_NAME]
   collection = db['references']
   if os.listdir(reference_dir):
     for file_name in os.listdir(reference_dir):

@@ -1,13 +1,13 @@
 from bson import Binary, UuidRepresentation
+from db_utils.db_settings import CLIENT_URL, DATABASE_NAME
 from pymongo import MongoClient
 import gridfs
 import os
 import uuid
 
-
 def load_mp3_batch(audio_dir):
-    client = MongoClient('mongodb://localhost:27017/')  
-    db = client['whisperx']
+    client = MongoClient(CLIENT_URL)  
+    db = client[DATABASE_NAME]
     fs = gridfs.GridFS(db)
     files = os.listdir(audio_dir)
     c=1

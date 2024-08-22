@@ -2,15 +2,15 @@ import whisperx
 from transcription.wx_align import align_text
 from transcription.wx_diarize import generate_diarization
 
-def generate_transcription(output_path, hf_token, device, batch_size, compute_type, whisper_faster_model_dir, language):
-  model = whisperx.load_model(whisper_faster_model_dir, device, compute_type=compute_type, language=language) 
+def generate_transcription(output_path, HF_TOKEN, DEVICE, BATCH_SIZE, COMPUTE_TYPE, WHISPER_FASTER_MODEL_DIR, LANGUAGE):
+  model = whisperx.load_model(WHISPER_FASTER_MODEL_DIR, DEVICE, compute_type=COMPUTE_TYPE, language=LANGUAGE) 
   audio = whisperx.load_audio(output_path)
-  result = model.transcribe(audio, batch_size=batch_size)
-  result = align_text(audio, device, result)
-  generate_diarization(hf_token, device, audio, result)
+  result = model.transcribe(audio, batch_size=BATCH_SIZE)
+  result = align_text(audio, DEVICE, result)
+  generate_diarization(HF_TOKEN, DEVICE, audio, result)
   return result 
 
-def show_raw_text(result_transcription):
+def extract_raw_text(result_transcription):
   raw_text = "\n".join([segment['text'] for segment in result_transcription["segments"]])
   print("------------------------------------------------------------------\n",
         "------------------------Raw Transcription-------------------------\n",

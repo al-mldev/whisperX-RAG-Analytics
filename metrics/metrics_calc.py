@@ -1,4 +1,5 @@
 from evaluate import load
+from db_utils.db_settings import CLIENT_URL, DATABASE_NAME
 from jiwer import cer
 from pymongo import MongoClient
 from utils.load_lists import load_transcription_text, load_reference_text
@@ -9,8 +10,8 @@ import tempfile
 
 def whisperx_metrics_rtf(audio_id, file_name, last_end):
   last_end = float(last_end)
-  client = MongoClient('mongodb://localhost:27017/')  
-  db = client['whisperx'] 
+  client = MongoClient(CLIENT_URL)  
+  db = client[DATABASE_NAME] 
   fs = gridfs.GridFS(db)   
   collection = db['audio_files']
   file_name = collection.find_one({'audio_id': audio_id})
