@@ -1,5 +1,5 @@
 #API 
-HF_TOKEN = "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"
+HF_TOKEN = "created_huggingface_token"
 
 #MODEL
 MODEL_NAME = "openai/whisper-tiny.en" 
